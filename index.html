@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yaya-Almajiri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lateef&family=Scheherazade+New:wght@400;700&family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              moroccan: {
+                base: '#FDF6E3', // Creamy background
+                teal: '#006D77', // Deep Teal
+                gold: '#D4AF37', // Gold accent
+                clay: '#E2725B', // Terracotta
+                sand: '#E6CCB2',
+                dark: '#1D2D2E',
+              }
+            },
+            fontFamily: {
+              sans: ['Work Sans', 'sans-serif'],
+              arabic: ['Amiri', 'serif'],
+              script: ['Lateef', 'cursive'],
+            },
+            backgroundImage: {
+              'pattern': "url('https://www.transparenttextures.com/patterns/arabesque.png')",
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #FDF6E3;
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-moroccan-base text-moroccan-dark font-sans antialiased bg-pattern">
+    <div id="root"></div>
+  </body>
+</html>
