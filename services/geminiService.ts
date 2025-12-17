@@ -10,9 +10,7 @@ const cleanJson = (text: string): string => {
 };
 
 // --- 1. Recitation Recognition (Audio -> Verse) ---
-// Using gemini-2.5-flash for speed and multimodal audio reliability
 export const identifyRecitation = async (base64Audio: string, mimeType: string): Promise<Verse> => {
-  // Always create a new instance to ensure we use the latest env vars if they change
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const model = "gemini-2.5-flash";
   
@@ -66,53 +64,7 @@ export const identifyRecitation = async (base64Audio: string, mimeType: string):
   throw new Error("Could not identify recitation");
 };
 
-// --- 2. Quran Content Generation (for Reader) ---
-// Uses gemini-2.5-flash-lite for fast retrieval
-export const getSurahContent = async (surahNumber: number): Promise<Verse[]> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  const model = "gemini-2.5-flash-lite";
-  
-  const prompt = `
-    Provide the first 15 verses of Surah number ${surahNumber}.
-    Return a JSON array of objects.
-  `;
-
-  try {
-    const response = await ai.models.generateContent({
-      model: model,
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.ARRAY,
-          items: {
-            type: Type.OBJECT,
-            properties: {
-              surahNumber: { type: Type.INTEGER },
-              ayahNumber: { type: Type.INTEGER },
-              surahNameAr: { type: Type.STRING },
-              surahNameEn: { type: Type.STRING },
-              arabicText: { type: Type.STRING },
-              translation: { type: Type.STRING },
-              transliteration: { type: Type.STRING },
-            }
-          }
-        }
-      }
-    });
-
-    if (response.text) {
-      const cleanedText = cleanJson(response.text);
-      return JSON.parse(cleanedText) as Verse[];
-    }
-  } catch (error) {
-    console.error("Failed to fetch surah content:", error);
-  }
-  return [];
-};
-
-// --- 3. Scholar Chat (Thinking Mode) ---
-// Uses gemini-3-pro-preview with HIGH thinking budget
+// --- 2. Scholar Chat (Thinking Mode) ---
 export const askScholar = async (history: {role: string, parts: {text: string}[]}[], question: string) => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const model = "gemini-3-pro-preview";
@@ -129,8 +81,7 @@ export const askScholar = async (history: {role: string, parts: {text: string}[]
   return result.text;
 };
 
-// --- 4. Text to Speech ---
-// Uses gemini-2.5-flash-preview-tts
+// --- 3. Text to Speech ---
 export const generateSpeech = async (text: string): Promise<string> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const model = "gemini-2.5-flash-preview-tts";
@@ -155,39 +106,7 @@ export const generateSpeech = async (text: string): Promise<string> => {
   return base64Audio;
 };
 
-// --- 5. Image Generation ---
-// Uses gemini-3-pro-image-preview
-// IMPORTANT: This call relies on the API KEY selected via window.aistudio.openSelectKey() in the UI.
-export const generateIslamicArt = async (prompt: string, size: '1K' | '2K' | '4K' = '1K'): Promise<string> => {
-  // Re-initialize client to pick up the potentially newly selected key
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  const model = "gemini-3-pro-image-preview";
-  
-  const fullPrompt = `Create a beautiful, respectful Islamic art piece or calligraphy based on this theme: ${prompt}. 
-  Style: Moroccan Zellige, Arabesque, or Ottoman illumination. High detail, warm lighting.`;
-
-  const response = await ai.models.generateContent({
-    model: model,
-    contents: { parts: [{ text: fullPrompt }] },
-    config: {
-      imageConfig: {
-        aspectRatio: "1:1",
-        imageSize: size
-      }
-    }
-  });
-
-  // Find the image part
-  for (const part of response.candidates?.[0]?.content?.parts || []) {
-    if (part.inlineData) {
-      return `data:image/png;base64,${part.inlineData.data}`;
-    }
-  }
-  throw new Error("No image generated");
-};
-
-// --- 6. Live API Setup ---
-// Returns the session promise
+// --- 4. Live API Setup ---
 export const connectLiveSession = async (
   onAudioData: (base64: string) => void,
   onClose: () => void
@@ -224,4 +143,39 @@ export const connectLiveSession = async (
       systemInstruction: "You are a helpful Quran tutor. Listen to the user recite (or speak) and help them improve, or discuss verses. Be polite, encouraging, and respectful."
     }
   });
+};
+
+// --- 5. Image Generation ---
+export const generateIslamicArt = async (prompt: string, size: '1K' | '2K' | '4K' = '1K'): Promise<string> => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const model = "gemini-3-pro-image-preview";
+
+  const response = await ai.models.generateContent({
+    model: model,
+    contents: {
+      parts: [
+        {
+          text: `Generate an Islamic geometric art piece based on this description: ${prompt}`,
+        },
+      ],
+    },
+    config: {
+      imageConfig: {
+        aspectRatio: "1:1",
+        imageSize: size,
+      },
+    },
+  });
+
+  const candidates = response.candidates;
+  if (candidates && candidates.length > 0 && candidates[0].content && candidates[0].content.parts) {
+     for (const part of candidates[0].content.parts) {
+        if (part.inlineData) {
+            const base64EncodeString = part.inlineData.data;
+            return `data:image/png;base64,${base64EncodeString}`;
+        }
+     }
+  }
+
+  throw new Error("No image generated.");
 };

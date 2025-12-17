@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yaya-Almajiri</title>
+    <title>Almajir</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
           extend: {
             colors: {
               moroccan: {
-                base: '#FDF6E3', // Creamy background
+                base: '#FFF8E1', // Much warmer Amber/Cream
                 teal: '#006D77', // Deep Teal
                 gold: '#D4AF37', // Gold accent
                 clay: '#E2725B', // Terracotta
@@ -36,7 +36,15 @@
     </script>
     <style>
       body {
-        background-color: #FDF6E3;
+        /* Bolder, welcoming gradient */
+        background: linear-gradient(135deg, #fdfbf7 0%, #faeec7 100%);
+        min-height: 100vh;
+      }
+      .bg-pattern {
+        /* Increase contrast of the pattern */
+        background-color: transparent;
+        background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+        background-blend-mode: multiply; 
       }
       .scrollbar-hide::-webkit-scrollbar {
           display: none;
@@ -57,7 +65,7 @@
 }
 </script>
 </head>
-  <body class="bg-moroccan-base text-moroccan-dark font-sans antialiased bg-pattern">
+  <body class="text-moroccan-dark font-sans antialiased bg-pattern">
     <div id="root"></div>
   </body>
 </html>

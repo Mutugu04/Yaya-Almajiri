@@ -3,7 +3,8 @@ import { RecitationRecognizer } from './components/RecitationRecognizer';
 import { QuranReader } from './components/QuranReader';
 import { ScholarChat } from './components/ScholarChat';
 import { LiveSession } from './components/LiveSession';
-import { ArtGenerator } from './components/ArtGenerator';
+import { PrayerDashboard } from './components/PrayerDashboard';
+import { AzkarBook } from './components/AzkarBook';
 import { AppMode } from './types';
 
 const App: React.FC = () => {
@@ -14,36 +15,84 @@ const App: React.FC = () => {
     switch (mode) {
       case AppMode.HOME:
         return (
-          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6 md:space-y-8 animate-fade-in-up py-4">
-            <h1 className="text-4xl md:text-7xl font-arabic text-moroccan-teal drop-shadow-sm font-bold leading-tight">Yaya-Almajiri</h1>
-            <p className="text-lg md:text-2xl font-serif text-moroccan-dark max-w-2xl leading-relaxed px-4">
-              Your intelligent companion for the Holy Quran. Listen, read, reflect, and learn with advanced AI.
+          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4 md:space-y-6 animate-fade-in-up py-4">
+            <h1 className="text-4xl md:text-6xl font-arabic text-moroccan-teal drop-shadow-sm font-bold leading-tight mt-2">Almajir</h1>
+            <p className="text-base md:text-lg font-serif text-moroccan-dark max-w-xl leading-relaxed px-4 opacity-80">
+              Seek knowledge, connect with the Quran, and find your way.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl mt-8 px-4">
-               <button onClick={() => setMode(AppMode.RECOGNITION)} className="p-4 md:p-6 bg-white hover:bg-moroccan-teal hover:text-white rounded-xl shadow-md transition-all group flex flex-col items-center md:items-start text-center md:text-left">
-                  <div className="text-3xl md:text-4xl mb-2">🎤</div>
-                  <h3 className="font-bold text-lg">Recognize Verse</h3>
-                  <p className="text-sm opacity-70 group-hover:opacity-90">Recite and identify instantly</p>
+            
+            {/* 3D Grid Layout: 2 Columns, 3 Rows */}
+            <div className="grid grid-cols-2 gap-4 w-full max-w-3xl mt-6 px-4">
+               {/* 1. Recite */}
+               <button onClick={() => setMode(AppMode.RECOGNITION)} className="group relative overflow-hidden p-4 rounded-xl transition-all bg-gradient-to-br from-fuchsia-600 to-purple-800 text-white shadow-[0_6px_0_0_#6b21a8] active:shadow-none active:translate-y-[6px] hover:-translate-y-1 min-h-[100px] flex flex-col justify-between items-start">
+                  <div className="absolute -bottom-4 -right-4 text-6xl opacity-10 font-arabic rotate-12">اقرأ</div>
+                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                    <span className="text-xl">🎤</span>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg font-serif leading-none">Recite</h3>
+                    <p className="text-white/70 text-xs mt-1">Identify verses</p>
+                  </div>
                </button>
-               <button onClick={() => setMode(AppMode.READER)} className="p-4 md:p-6 bg-white hover:bg-moroccan-teal hover:text-white rounded-xl shadow-md transition-all group flex flex-col items-center md:items-start text-center md:text-left">
-                  <div className="text-3xl md:text-4xl mb-2">📖</div>
-                  <h3 className="font-bold text-lg">Quran Reader</h3>
-                  <p className="text-sm opacity-70 group-hover:opacity-90">Browse Surahs with translations</p>
+
+               {/* 2. Read */}
+               <button onClick={() => setMode(AppMode.READER)} className="group relative overflow-hidden p-4 rounded-xl transition-all bg-gradient-to-br from-teal-500 to-emerald-700 text-white shadow-[0_6px_0_0_#047857] active:shadow-none active:translate-y-[6px] hover:-translate-y-1 min-h-[100px] flex flex-col justify-between items-start">
+                  <div className="absolute -bottom-4 -right-4 text-6xl opacity-10 font-arabic rotate-12">كتاب</div>
+                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                    <span className="text-xl">📖</span>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg font-serif leading-none">Quran</h3>
+                    <p className="text-white/70 text-xs mt-1">Full Reader</p>
+                  </div>
                </button>
-               <button onClick={() => setMode(AppMode.CHAT)} className="p-4 md:p-6 bg-white hover:bg-moroccan-teal hover:text-white rounded-xl shadow-md transition-all group flex flex-col items-center md:items-start text-center md:text-left">
-                  <div className="text-3xl md:text-4xl mb-2">💡</div>
-                  <h3 className="font-bold text-lg">Scholar Chat</h3>
-                  <p className="text-sm opacity-70 group-hover:opacity-90">Deep questions & answers</p>
+
+               {/* 3. Prayer */}
+               <button onClick={() => setMode(AppMode.PRAYER)} className="group relative overflow-hidden p-4 rounded-xl transition-all bg-gradient-to-br from-indigo-500 to-blue-700 text-white shadow-[0_6px_0_0_#1d4ed8] active:shadow-none active:translate-y-[6px] hover:-translate-y-1 min-h-[100px] flex flex-col justify-between items-start">
+                  <div className="absolute -bottom-4 -right-4 text-6xl opacity-10 font-arabic rotate-12">صلاة</div>
+                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                    <span className="text-xl">🕌</span>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg font-serif leading-none">Prayer</h3>
+                    <p className="text-white/70 text-xs mt-1">Times & Qibla</p>
+                  </div>
                </button>
-               <button onClick={() => setMode(AppMode.LIVE)} className="p-4 md:p-6 bg-white hover:bg-moroccan-teal hover:text-white rounded-xl shadow-md transition-all group flex flex-col items-center md:items-start text-center md:text-left">
-                  <div className="text-3xl md:text-4xl mb-2">⚡</div>
-                  <h3 className="font-bold text-lg">Live Tutor</h3>
-                  <p className="text-sm opacity-70 group-hover:opacity-90">Real-time voice conversation</p>
+
+               {/* 4. Scholar */}
+               <button onClick={() => setMode(AppMode.CHAT)} className="group relative overflow-hidden p-4 rounded-xl transition-all bg-gradient-to-br from-amber-500 to-orange-700 text-white shadow-[0_6px_0_0_#c2410c] active:shadow-none active:translate-y-[6px] hover:-translate-y-1 min-h-[100px] flex flex-col justify-between items-start">
+                  <div className="absolute -bottom-4 -right-4 text-6xl opacity-10 font-arabic rotate-12">علم</div>
+                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                    <span className="text-xl">💡</span>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg font-serif leading-none">Scholar</h3>
+                    <p className="text-white/70 text-xs mt-1">AI Assistant</p>
+                  </div>
                </button>
-               <button onClick={() => setMode(AppMode.ART)} className="p-4 md:p-6 bg-white hover:bg-moroccan-teal hover:text-white rounded-xl shadow-md transition-all group flex flex-col items-center md:items-start text-center md:text-left md:col-span-2">
-                  <div className="text-3xl md:text-4xl mb-2">🎨</div>
-                  <h3 className="font-bold text-lg">Islamic Art Studio</h3>
-                  <p className="text-sm opacity-70 group-hover:opacity-90">Generate geometric art with AI</p>
+
+               {/* 5. Live */}
+               <button onClick={() => setMode(AppMode.LIVE)} className="group relative overflow-hidden p-4 rounded-xl transition-all bg-gradient-to-br from-rose-500 to-red-700 text-white shadow-[0_6px_0_0_#be123c] active:shadow-none active:translate-y-[6px] hover:-translate-y-1 min-h-[100px] flex flex-col justify-between items-start">
+                  <div className="absolute -bottom-4 -right-4 text-6xl opacity-10 font-arabic rotate-12">تكلم</div>
+                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                    <span className="text-xl">⚡</span>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg font-serif leading-none">Live Tutor</h3>
+                    <p className="text-white/70 text-xs mt-1">Real-time</p>
+                  </div>
+               </button>
+               
+               {/* 6. Azkar (New) */}
+               <button onClick={() => setMode(AppMode.AZKAR)} className="group relative overflow-hidden p-4 rounded-xl transition-all bg-gradient-to-br from-cyan-600 to-sky-800 text-white shadow-[0_6px_0_0_#0369a1] active:shadow-none active:translate-y-[6px] hover:-translate-y-1 min-h-[100px] flex flex-col justify-between items-start">
+                  <div className="absolute -bottom-4 -right-4 text-6xl opacity-10 font-arabic rotate-12">ذكر</div>
+                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                    <span className="text-xl">📿</span>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg font-serif leading-none">Azkar</h3>
+                    <p className="text-white/70 text-xs mt-1">Daily Fortress</p>
+                  </div>
                </button>
             </div>
           </div>
@@ -56,8 +105,10 @@ const App: React.FC = () => {
         return <ScholarChat />;
       case AppMode.LIVE:
         return <LiveSession />;
-      case AppMode.ART:
-        return <ArtGenerator />;
+      case AppMode.PRAYER:
+        return <PrayerDashboard />;
+      case AppMode.AZKAR:
+        return <AzkarBook />;
       default:
         return <div />;
     }
@@ -66,33 +117,34 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col font-sans text-moroccan-dark relative">
       {/* Navbar */}
-      <nav className="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-moroccan-gold/30 h-16 md:h-20 flex items-center">
+      <nav className="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-moroccan-gold/30 h-16 flex items-center">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
-            <div className="flex items-center cursor-pointer" onClick={() => setMode(AppMode.HOME)}>
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-moroccan-teal rounded-lg flex items-center justify-center text-white font-arabic text-xl md:text-2xl font-bold mr-2 md:mr-3 shadow-sm shrink-0">
-                ي
+            <div className="flex items-center cursor-pointer group" onClick={() => setMode(AppMode.HOME)}>
+              <div className="w-8 h-8 bg-moroccan-teal rounded-lg flex items-center justify-center text-white font-arabic text-xl font-bold mr-2 shadow-sm shrink-0 transition-transform group-hover:rotate-12">
+                ع
               </div>
-              <span className="font-bold text-xl md:text-2xl tracking-tight text-moroccan-teal font-serif truncate">Yaya-Almajiri</span>
+              <span className="font-bold text-xl tracking-tight text-moroccan-teal font-serif truncate">Almajir</span>
             </div>
             
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
               {[
                 { m: AppMode.HOME, l: 'Home' },
                 { m: AppMode.RECOGNITION, l: 'Recite' },
                 { m: AppMode.READER, l: 'Read' },
+                { m: AppMode.PRAYER, l: 'Prayer' },
+                { m: AppMode.AZKAR, l: 'Azkar' },
                 { m: AppMode.CHAT, l: 'Scholar' },
                 { m: AppMode.LIVE, l: 'Live' },
-                { m: AppMode.ART, l: 'Art' },
               ].map(item => (
                 <button
                   key={item.m}
                   onClick={() => setMode(item.m)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
                     mode === item.m 
-                    ? 'text-moroccan-teal bg-moroccan-teal/10 font-bold' 
-                    : 'text-gray-600 hover:text-moroccan-teal'
+                    ? 'text-white bg-moroccan-teal font-bold shadow-sm' 
+                    : 'text-gray-600 hover:text-moroccan-teal hover:bg-moroccan-base'
                   }`}
                 >
                   {item.l}
@@ -126,16 +178,17 @@ const App: React.FC = () => {
                 { m: AppMode.HOME, l: 'Home' },
                 { m: AppMode.RECOGNITION, l: 'Recite' },
                 { m: AppMode.READER, l: 'Read' },
-                { m: AppMode.CHAT, l: 'Scholar' },
-                { m: AppMode.LIVE, l: 'Live' },
-                { m: AppMode.ART, l: 'Art' },
+                { m: AppMode.PRAYER, l: 'Prayer Times' },
+                { m: AppMode.AZKAR, l: 'Azkar' },
+                { m: AppMode.CHAT, l: 'Scholar Chat' },
+                { m: AppMode.LIVE, l: 'Live Tutor' },
               ].map(item => (
                 <button
                   key={item.m}
                   onClick={() => { setMode(item.m); setIsMenuOpen(false); }}
                   className={`block w-full text-left px-4 py-3 rounded-md text-base font-medium active:bg-gray-100 ${
                     mode === item.m 
-                    ? 'text-moroccan-teal bg-moroccan-teal/10' 
+                    ? 'text-moroccan-teal bg-moroccan-teal/10 font-bold' 
                     : 'text-gray-600'
                   }`}
                 >
@@ -148,15 +201,15 @@ const App: React.FC = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-7xl mx-auto py-4 md:py-8 px-0 md:px-6 lg:px-8 relative z-10">
+      <main className="flex-1 w-full max-w-7xl mx-auto py-4 px-0 md:px-4 relative z-10">
         {renderContent()}
       </main>
 
       {/* Footer */}
-      <footer className="bg-moroccan-dark text-moroccan-sand py-6 md:py-8 mt-auto relative z-10">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="font-serif italic opacity-80 text-sm md:text-base">"Read! In the name of your Lord who created..."</p>
-          <p className="text-xs md:text-sm mt-4 opacity-50">&copy; 2024 Yaya-Almajiri. Built with Gemini.</p>
+      <footer className="bg-moroccan-dark text-moroccan-sand py-4 md:py-6 mt-auto relative z-10 text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <p className="font-serif italic opacity-80 text-xs md:text-sm">"Seek knowledge from the cradle to the grave"</p>
+          <p className="text-[10px] md:text-xs mt-2 opacity-50">&copy; 2024 Almajir.</p>
         </div>
       </footer>
     </div>

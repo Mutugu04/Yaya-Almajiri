@@ -58,7 +58,7 @@ export const ScholarChat: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto h-[calc(100dvh-120px)] flex flex-col bg-white/80 rounded-xl shadow-2xl border border-moroccan-gold/20 overflow-hidden md:mb-4">
+    <div className="w-full max-w-4xl mx-auto h-[calc(100dvh-120px)] flex flex-col bg-white rounded-xl shadow-2xl border border-moroccan-gold/20 overflow-hidden md:mb-4">
         {/* Header */}
         <div className="bg-moroccan-teal p-3 md:p-4 flex items-center shadow-md z-10 shrink-0">
             <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-moroccan-gold flex items-center justify-center text-white mr-3 shrink-0">
@@ -74,15 +74,15 @@ export const ScholarChat: React.FC = () => {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-moroccan-base/50 scroll-smooth" ref={scrollRef}>
+        <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-slate-50 scroll-smooth" ref={scrollRef}>
             {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] md:max-w-[80%] rounded-2xl p-3 md:p-4 shadow-sm text-sm md:text-base ${
+                    <div className={`max-w-[85%] md:max-w-[75%] rounded-2xl p-4 shadow-md text-sm md:text-base relative ${
                         msg.role === 'user' 
                         ? 'bg-moroccan-teal text-white rounded-br-none' 
-                        : 'bg-white text-moroccan-dark rounded-bl-none border border-moroccan-gold/10'
+                        : 'bg-white text-gray-800 rounded-bl-none border border-gray-200'
                     }`}>
-                        <div className="markdown prose prose-sm max-w-none dark:prose-invert leading-relaxed whitespace-pre-wrap break-words">
+                        <div className="markdown prose prose-sm max-w-none leading-relaxed whitespace-pre-wrap break-words">
                             {msg.text}
                         </div>
                     </div>
@@ -90,7 +90,7 @@ export const ScholarChat: React.FC = () => {
             ))}
             {loading && (
                 <div className="flex justify-start">
-                    <div className="bg-white p-4 rounded-2xl rounded-bl-none shadow-sm border border-moroccan-gold/10">
+                    <div className="bg-white p-4 rounded-2xl rounded-bl-none shadow-sm border border-gray-200">
                         <div className="flex space-x-2">
                             <div className="w-2 h-2 bg-moroccan-teal rounded-full animate-bounce"></div>
                             <div className="w-2 h-2 bg-moroccan-teal rounded-full animate-bounce delay-75"></div>
@@ -102,7 +102,7 @@ export const ScholarChat: React.FC = () => {
         </div>
 
         {/* Input Area */}
-        <div className="p-3 md:p-4 bg-white border-t border-gray-100 shrink-0 safe-area-bottom">
+        <div className="p-3 md:p-4 bg-white border-t border-gray-200 shrink-0 safe-area-bottom">
             <div className="flex items-center space-x-2">
                 <input 
                     type="text" 
@@ -110,7 +110,7 @@ export const ScholarChat: React.FC = () => {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
                     placeholder="Ask a question..."
-                    className="flex-1 border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:border-moroccan-teal focus:ring-1 focus:ring-moroccan-teal text-sm md:text-base"
+                    className="flex-1 border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:border-moroccan-teal focus:ring-2 focus:ring-moroccan-teal/20 text-sm md:text-base bg-gray-50 text-gray-900"
                 />
                 <button 
                     onClick={handleSend}

@@ -1,8 +1,9 @@
 {
-  "name": "Yaya-Almajiri",
-  "description": "An intelligent Islamic companion app featuring Quran recitation recognition, a full Quran reader, and an AI scholar, wrapped in a warm, Moroccan-inspired interface.",
+  "name": "Almajir",
+  "description": "An intelligent Islamic companion app featuring Quran recitation recognition, a full Quran reader with audio, prayer times, and an AI scholar.",
   "requestFramePermissions": [
     "microphone",
-    "camera"
+    "camera",
+    "geolocation"
   ]
 }

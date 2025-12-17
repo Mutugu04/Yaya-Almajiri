@@ -95,10 +95,35 @@ export const RecitationRecognizer: React.FC = () => {
     if (!verse) return;
     try {
       const audioBase64 = await generateSpeech(verse.translation);
-      const audio = new Audio(`data:audio/mp3;base64,${audioBase64}`);
-      audio.play();
+      
+      // Decode raw PCM data (24kHz, 1 channel) from Gemini
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioContextClass({ sampleRate: 24000 });
+      
+      const binaryString = atob(audioBase64);
+      const len = binaryString.length;
+      const buffer = new ArrayBuffer(len);
+      const view = new Uint8Array(buffer);
+      for (let i = 0; i < len; i++) {
+        view[i] = binaryString.charCodeAt(i);
+      }
+      
+      const dataInt16 = new Int16Array(buffer);
+      const audioBuffer = audioCtx.createBuffer(1, dataInt16.length, 24000);
+      const channelData = audioBuffer.getChannelData(0);
+      
+      for (let i = 0; i < dataInt16.length; i++) {
+        channelData[i] = dataInt16[i] / 32768.0;
+      }
+
+      const source = audioCtx.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(audioCtx.destination);
+      source.start(0);
+
     } catch (e) {
       console.error(e);
+      setError("Failed to play audio translation.");
     }
   };
 
